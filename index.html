@@ -380,6 +380,26 @@
   .cal-day.pending{border-style:dashed; border-color:var(--gold-dim); opacity:.65;}
   .cal-day.pending .d-prov{color:var(--ink-dim); font-style:italic;}
 
+  /* ---------- Section 4b: calendario internacional ---------- */
+  .intl-grid{
+    max-width:1100px; margin:0 auto;
+    display:grid; grid-template-columns:repeat(4,1fr); gap:12px;
+  }
+  .intl-day{
+    border:1px solid var(--navy-line); padding:16px 16px; text-align:left;
+    background:rgba(21,42,92,0.15);
+    transition:border-color .25s ease, background .25s ease;
+  }
+  .intl-day .i-head{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:8px;}
+  .intl-day .i-num{font-family:var(--label); font-size:12px; letter-spacing:1px; color:var(--gold-dim); text-transform:uppercase;}
+  .intl-day .i-date{font-family:var(--body); font-size:12.5px; color:var(--ink-dim);}
+  .intl-day .i-countries{font-family:var(--body); font-size:14.5px; color:var(--ink); line-height:1.55;}
+  .intl-day.done{opacity:.5;}
+  .intl-day.today{border-color:var(--gold-bright); background:linear-gradient(180deg, rgba(201,162,78,0.18), rgba(21,42,92,0.15)); box-shadow:0 0 20px -4px rgba(232,205,142,.4);}
+  .intl-day.today .i-num{color:var(--gold-bright);}
+  .intl-day.finale{border-color:var(--gold); background:linear-gradient(180deg, rgba(201,162,78,0.22), rgba(21,42,92,0.2));}
+  .intl-day.finale .i-num{color:var(--gold-bright);}
+
   /* ---------- Section 5: cierre ---------- */
   .close-wrap{
     max-width:1000px; margin:0 auto; display:grid; grid-template-columns:1.1fr .9fr; gap:60px; align-items:start;
@@ -525,11 +545,13 @@
     .timeline::before{left:64px;}
     .t-item{grid-template-columns:64px 1fr; gap:20px;}
     .cal-grid{grid-template-columns:repeat(5,1fr);}
+    .intl-grid{grid-template-columns:repeat(2,1fr);}
   }
   @media (max-width:640px){
     .wrap{padding:0 20px;}
     section{padding:76px 0;}
     .cal-grid{grid-template-columns:repeat(3,1fr);}
+    .intl-grid{grid-template-columns:1fr;}
     .foot-grid{flex-direction:column;}
   }
 </style>
@@ -550,6 +572,7 @@
       <li><a href="#que-es">Qué es</a></li>
       <li><a href="#historia">Historia</a></li>
       <li><a href="#calendario">Calendario</a></li>
+      <li><a href="#calendario-internacional">Naciones</a></li>
       <li><a href="#cierre">Cierre</a></li>
       <li><a href="#colabora">Colabora</a></li>
       <li><a href="#ofrendas">Ofrendas</a></li>
@@ -737,6 +760,33 @@
   </div>
 </section>
 
+<section id="calendario-internacional">
+  <div class="wrap">
+    <p class="kicker reveal">12 Agosto — 20 Septiembre 2026</p>
+    <h2 class="h-title reveal">Naciones y Territorios que se Suman</h2>
+    <p class="h-sub reveal">Cada día, un grupo de países y territorios del mundo se agrega en oración al ayuno nacional. 265 naciones y territorios, día por día, hasta el cierre del 20 de septiembre.</p>
+
+    <div class="cal-progress-wrap reveal">
+      <div class="cal-progress-label">
+        <span id="intl-prog-left">Grupo 1 de 40</span>
+        <span id="intl-prog-right">12 Ago 2026</span>
+      </div>
+      <div class="cal-progress-track">
+        <div class="cal-progress-fill" id="intl-prog-fill"></div>
+        <div class="cal-progress-marker" id="intl-prog-marker"></div>
+      </div>
+    </div>
+
+    <div class="cal-legend reveal">
+      <span><i class="swatch done"></i>Ya en oración</span>
+      <span><i class="swatch today"></i>Hoy</span>
+      <span><i class="swatch upcoming"></i>Por venir</span>
+    </div>
+
+    <div class="intl-grid reveal" id="intl-grid"></div>
+  </div>
+</section>
+
 <section id="cierre">
   <div class="wrap">
     <p class="kicker reveal">Día 40</p>
@@ -919,6 +969,7 @@
         <a href="#que-es">¿En qué consiste?</a>
         <a href="#historia">Nuestra historia</a>
         <a href="#calendario">Calendario de provincias</a>
+        <a href="#calendario-internacional">Naciones y territorios</a>
       </div>
       <div class="foot-col">
         <h6>Cierre 2026</h6>
@@ -1100,6 +1151,97 @@
 
   document.getElementById('prog-fill').style.width = pct+'%';
   document.getElementById('prog-marker').style.left = pct+'%';
+
+  // ---- data: calendario internacional, 265 naciones y territorios en 40 grupos ----
+  var countryGroups = [
+    ["Abjasia","Afganistán","Akrotiri y Dekelia","Albania","Alemania","Andorra","Angola"],
+    ["Anguila","Antártida","Antigua y Barbuda","Arabia Saudita","Argelia","Argentina","Armenia"],
+    ["Aruba","Australia","Austria","Azerbaiyán","Bahamas","Bangladés","Barbados"],
+    ["Baréin","Bélgica","Belice","Benín","Bermudas","Bielorrusia"],
+    ["Birmania (Myanmar)","Bolivia","Bonaire, San Eustaquio y Saba","Bosnia y Herzegovina","Botsuana","Brasil","Brunéi"],
+    ["Bulgaria","Burkina Faso","Burundi","Bután","Cabo Verde","Camboya","Camerún"],
+    ["Canadá","Catar","Chad","Chile","China","Chipre","Chipre del Norte"],
+    ["Ciudad del Vaticano","Colombia","Comoras","Corea del Norte","Corea del Sur","Costa de Marfil","Costa Rica"],
+    ["Croacia","Cuba","Curazao","Dinamarca","Dominica","Ecuador","Egipto"],
+    ["El Salvador","Emiratos Árabes Unidos","Eritrea","Eslovaquia","Eslovenia","España"],
+    ["Estados Unidos","Estonia","Esuatini (Suazilandia)","Etiopía","Filipinas","Finlandia","Fiyi"],
+    ["Francia","Gabón","Gambia","Georgia","Ghana","Gibraltar","Granada"],
+    ["Grecia","Groenlandia","Guadalupe","Guam","Guatemala","Guayana Francesa"],
+    ["Guernsey","Guinea","Guinea-Bisáu","Guinea Ecuatorial","Guyana","Haití","Honduras"],
+    ["Hong Kong","Hungría","India","Indonesia","Irak","Irán","Irlanda"],
+    ["Isla Bouvet","Isla de Man","Isla de Navidad","Isla Norfolk","Islandia","Islas Caimán"],
+    ["Islas Cocos (Keeling)","Islas Cook","Islas Feroe","Islas Georgia del Sur y Sandwich del Sur","Islas Heard y McDonald","Islas Malvinas","Islas Marianas del Norte"],
+    ["Islas Marshall","Islas Pitcairn","Islas Salomón","Islas Turcas y Caicos","Islas Vírgenes Británicas","Islas Vírgenes de los Estados Unidos"],
+    ["Israel","Italia","Jamaica","Japón","Jersey","Jordania","Kazajistán"],
+    ["Kenia","Kirguistán","Kiribati","Kosovo","Kuwait","Laos"],
+    ["Lesoto","Letonia","Líbano","Liberia","Libia","Liechtenstein","Lituania"],
+    ["Luxemburgo","Macao","Macedonia del Norte","Madagascar","Malasia","Malaui","Maldivas"],
+    ["Malí","Malta","Marruecos","Martinica","Mauricio","Mauritania","Mayotte"],
+    ["México","Micronesia","Moldavia","Mónaco","Mongolia","Montenegro"],
+    ["Montserrat","Mozambique","Namibia","Nauru","Nepal","Nicaragua","Níger"],
+    ["Nigeria","Niue","Noruega","Nueva Caledonia","Nueva Zelanda","Omán"],
+    ["Osetia del Sur","Países Bajos","Pakistán","Palaos","Palestina","Panamá","Papúa Nueva Guinea"],
+    ["Paraguay","Perú","Polinesia Francesa","Polonia","Portugal","Puerto Rico"],
+    ["Reino Unido","República Centroafricana","República Checa","República del Congo","República Democrática del Congo","República Dominicana"],
+    ["Reunión","Ruanda","Rumanía","Rusia","Sahara Occidental (RASD)","Samoa","Samoa Americana"],
+    ["San Bartolomé","San Cristóbal y Nieves","San Marino","San Martín (Francia)","San Martín (Países Bajos)","San Pedro y Miquelón"],
+    ["San Vicente y las Granadinas","Santa Elena, Ascensión y Tristán de Acuña","Santa Lucía","Santo Tomé y Príncipe","Senegal","Serbia"],
+    ["Seychelles","Sierra Leona","Singapur","Siria","Somalia","Somalilandia"],
+    ["Sri Lanka","Sudáfrica","Sudán","Sudán del Sur","Suecia","Suiza"],
+    ["Surinam","Svalbard y Jan Mayen","Tailandia","Taiwán","Tanzania","Tayikistán"],
+    ["Territorio Británico del Océano Índico","Territorios Australes y Antárticos Franceses","Timor Oriental","Togo","Tokelau","Tonga"],
+    ["Transnistria","Trinidad y Tobago","Tristán da Cunha","Túnez","Turkmenistán","Turquía"],
+    ["Tuvalu","Ucrania","Uganda","Uruguay","Uzbekistán","Vanuatu"],
+    ["Venezuela","Vietnam","Wallis y Futuna","Yemen","Yibuti","Zambia"],
+    ["Zimbabue","Ultramar de los Estados Unidos (Islas Ultramarinas)","Atolón Palmyra","Isla Baker","Isla Howland","Isla Jarvis","Atolón Johnston","Arrecife Kingman","Atolón Midway","Isla Navaza","Atolón Wake"]
+  ];
+
+  var intlGrid = document.getElementById('intl-grid');
+  var intlTodayIndex = -1;
+  var intlDays = [];
+  countryGroups.forEach(function(countries, idx){
+    var d = new Date(start); d.setDate(start.getDate()+idx);
+    intlDays.push({num:idx+1, date:d, countries:countries});
+  });
+  intlDays.forEach(function(day, idx){
+    var cell = document.createElement('div');
+    var dDate = new Date(day.date); dDate.setHours(0,0,0,0);
+    var cls = 'intl-day';
+    if(day.num===40) cls+=' finale';
+    if(dDate.getTime() === today.getTime()){ cls+=' today'; intlTodayIndex = idx; }
+    else if(dDate.getTime() < today.getTime()){ cls+=' done'; }
+    cell.className = cls;
+    cell.innerHTML = '<div class="i-head"><span class="i-num">Grupo '+day.num+'</span><span class="i-date">'+fmt(day.date)+'</span></div><div class="i-countries">'+day.countries.join(', ')+'</div>';
+    intlGrid.appendChild(cell);
+  });
+
+  var intlTotalDays = intlDays.length;
+  var intlActiveIdx = intlTodayIndex;
+  if(beforeStart) intlActiveIdx = -1;
+  if(afterEnd) intlActiveIdx = intlTotalDays-1;
+
+  var intlPct;
+  if(beforeStart){ intlPct = 0; }
+  else if(afterEnd){ intlPct = 100; }
+  else if(intlActiveIdx >= 0){ intlPct = ((intlActiveIdx+1)/intlTotalDays)*100; }
+  else { intlPct = 0; }
+
+  document.getElementById('intl-prog-fill').style.width = intlPct+'%';
+  document.getElementById('intl-prog-marker').style.left = intlPct+'%';
+
+  var intlProgLeft = document.getElementById('intl-prog-left');
+  var intlProgRight = document.getElementById('intl-prog-right');
+  if(beforeStart){
+    intlProgLeft.textContent = 'Comienza el 12 de agosto';
+    intlProgRight.textContent = fmt(intlDays[0].date)+' 2026';
+  } else if(afterEnd){
+    intlProgLeft.textContent = 'Recorrido completo — Grupo 40 de 40';
+    intlProgRight.textContent = fmt(intlDays[intlDays.length-1].date)+' 2026';
+  } else {
+    var gToday = intlDays[intlActiveIdx];
+    intlProgLeft.textContent = 'Grupo '+gToday.num+' de 40';
+    intlProgRight.textContent = fmt(gToday.date)+' 2026';
+  }
 
   var progLeft = document.getElementById('prog-left');
   var progRight = document.getElementById('prog-right');
