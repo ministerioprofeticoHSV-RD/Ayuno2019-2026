@@ -221,6 +221,14 @@
   }
   .hero-live b{color:var(--cream); font-weight:600;}
 
+  /* ---------- Directos en vivo ---------- */
+  .directos-wrap{text-align:center; max-width:680px;}
+  .directos-live{
+    margin:22px auto 34px; font-family:var(--label); font-size:16px; letter-spacing:1.5px; color:var(--gold);
+    text-transform:uppercase;
+  }
+  .directos-live b{color:var(--cream); font-weight:600;}
+
   /* ---------- section shell ---------- */
   section{position:relative; padding:110px 0; background:rgba(7,14,34,0.72); backdrop-filter:blur(1.5px);}
   section + section{border-top:1px solid var(--navy-line);}
@@ -607,9 +615,18 @@
     <p class="hero-meta">12 de Agosto — 20 de Septiembre 2026 <span class="dot">·</span> Faro a Colón, Santo Domingo</p>
 
     <a href="#rsvp" class="cta-primary">Confirmar Asistencia</a>
-    <a href="https://www.youtube.com/watch?v=CC7Fql1rISE" class="cta-secondary" target="_blank" rel="noopener">Conéctate a los Directos</a>
+    <a href="https://m.youtube.com/results?search_query=ministerio+ciclo+divino" class="cta-secondary" target="_blank" rel="noopener">Conéctate a los Directos</a>
 
     <p class="hero-live" id="hero-live"></p>
+  </div>
+</section>
+
+<section id="directos">
+  <div class="wrap directos-wrap">
+    <p class="kicker reveal">En vivo</p>
+    <h2 class="h-title reveal">Conéctate a los Directos</h2>
+    <p class="directos-live reveal" id="directos-live"></p>
+    <a href="https://m.youtube.com/results?search_query=ministerio+ciclo+divino" class="cta-primary reveal" target="_blank" rel="noopener">Ver el canal en YouTube</a>
   </div>
 </section>
 
@@ -983,7 +1000,7 @@
       </div>
       <div class="foot-col">
         <h6>Síguenos</h6>
-        <a href="https://www.youtube.com/watch?v=CC7Fql1rISE" target="_blank" rel="noopener">Directos en YouTube</a>
+        <a href="https://m.youtube.com/results?search_query=ministerio+ciclo+divino" target="_blank" rel="noopener">Directos en YouTube</a>
       </div>
     </div>
   </div>
@@ -1245,27 +1262,40 @@
   var progLeft = document.getElementById('prog-left');
   var progRight = document.getElementById('prog-right');
   var heroLive = document.getElementById('hero-live');
+  var directosLive = document.getElementById('directos-live');
+
+  function liveText(){
+    if(beforeStart){
+      return 'El recorrido nacional inicia el <b>12 de agosto de 2026</b>';
+    } else if(afterEnd){
+      return 'El cierre de 7 años se celebró el <b>20 de septiembre de 2026</b>';
+    } else {
+      var dToday = days[activeIdx];
+      if(dToday.type==='province'){
+        return 'Hoy, día '+dToday.num+' — en ayuno: <b>'+dToday.label+'</b>';
+      } else if(dToday.type==='finale'){
+        return 'Hoy: <b>Cierre Masivo</b> — Faro a Colón';
+      } else {
+        return 'Hoy, día '+dToday.num+' — cierre en <b>Santo Domingo</b>';
+      }
+    }
+  }
 
   if(beforeStart){
     progLeft.textContent = 'Comienza el 12 de agosto';
     progRight.textContent = fmt(days[0].date)+' 2026';
-    heroLive.innerHTML = 'El recorrido nacional inicia el <b>12 de agosto de 2026</b>';
+    heroLive.innerHTML = liveText();
   } else if(afterEnd){
     progLeft.textContent = 'Ciclo cerrado — Día 40 de 40';
     progRight.textContent = fmt(days[days.length-1].date)+' 2026';
-    heroLive.innerHTML = 'El cierre de 7 años se celebró el <b>20 de septiembre de 2026</b>';
+    heroLive.innerHTML = liveText();
   } else {
     var dToday = days[activeIdx];
     progLeft.textContent = 'Día '+dToday.num+' de 40';
     progRight.textContent = fmt(dToday.date)+' 2026';
-    if(dToday.type==='province'){
-      heroLive.innerHTML = 'Hoy, día '+dToday.num+' — en ayuno: <b>'+dToday.label+'</b>';
-    } else if(dToday.type==='finale'){
-      heroLive.innerHTML = 'Hoy: <b>Cierre Masivo</b> — Faro a Colón';
-    } else {
-      heroLive.innerHTML = 'Hoy, día '+dToday.num+' — cierre en <b>Santo Domingo</b>';
-    }
+    heroLive.innerHTML = liveText();
   }
+  if(directosLive) directosLive.innerHTML = liveText();
 
   // mobile nav toggle
   var navToggle = document.getElementById('nav-toggle');
