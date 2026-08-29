@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ayuno de 40 Días· Ministerio Profético Haciendo Su Voluntad</title>
-<meta name="description" content="Cierre de 7 años de ayuno nacional. 31 días de provincias y Distrito Nacional. 8 días de cierre en Gran Santo Domingo. Cierre Masivo, 20 de septiembre de 2026, Faro a Colón.">
+<meta name="description" content="Cierre de 7 años de ayuno nacional. 31 días de provincias, Distrito Nacional el día 32, y cierre en Gran Santo Domingo hasta el Faro a Colón, 20 de septiembre de 2026.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -615,9 +615,6 @@
     <p class="hero-meta">12 de Agosto — 20 de Septiembre 2026 <span class="dot">·</span> Faro a Colón, Santo Domingo</p>
 
     <a href="#rsvp" class="cta-primary">Confirmar Asistencia</a>
-    <a href="https://m.youtube.com/results?search_query=ministerio+ciclo+divino" class="cta-secondary" target="_blank" rel="noopener">Conéctate a los Directos</a>
-
-    <p class="hero-live" id="hero-live"></p>
   </div>
 </section>
 
@@ -634,18 +631,18 @@
   <div class="wrap">
     <p class="kicker reveal">La convocatoria</p>
     <h2 class="h-title reveal">¿En qué consiste?</h2>
-    <p class="h-sub reveal">No son 40 días en un mismo sitio. Es un recorrido: cada provincia sostiene un día de ayuno, y la nación entera cierra junta en la capital.</p>
+    <p class="h-sub reveal">Es una jornada de 40 días de ayuno a nivel nacional. 32 días corresponden a las 32 provincias del país, y los días restantes estarán distribuidos en todo Santo Domingo, culminando con un gran cierre nacional en el Faro a Colón.</p>
 
     <div class="split-cards">
       <div class="card reveal">
         <div class="num">31</div>
-        <h3>Días · Provincias y Distrito Nacional</h3>
-        <p>Cada provincia de la República Dominicana, y el Distrito Nacional, sostienen su día de ayuno del 12 de agosto al 11 de septiembre de 2026.</p>
+        <h3>Días · Provincias</h3>
+        <p>Cada una de las 31 provincias de la República Dominicana sostiene su día de ayuno, del 12 de agosto al 11 de septiembre de 2026.</p>
       </div>
       <div class="card reveal">
-        <div class="num">08</div>
-        <h3>Días de Cierre</h3>
-        <p>Del 12 al 19 de septiembre, el ayuno recorre los municipios del Gran Santo Domingo para sellar en la capital lo que se sembró provincia por provincia durante siete años.</p>
+        <div class="num">09</div>
+        <h3>Distrito Nacional y Santo Domingo</h3>
+        <p>El día 32 se suma el Distrito Nacional, y del 33 al 40 el ayuno recorre el Gran Santo Domingo hasta el Cierre Masivo en el Faro a Colón, el 20 de septiembre.</p>
       </div>
     </div>
 
@@ -751,7 +748,7 @@
 <section id="calendario">
   <div class="wrap">
     <p class="kicker reveal">12 Agosto — 20 Septiembre 2026</p>
-    <h2 class="h-title reveal">Calendario en Vivo · 32 Provincias</h2>
+    <h2 class="h-title reveal">Calendario en Vivo · 40 Días</h2>
     <p class="h-sub reveal">El recorrido nacional, día por día. Cada provincia tiene su fecha señalada; el marcador dorado indica el día de hoy.</p>
 
     <div class="cal-progress-wrap reveal">
@@ -807,7 +804,7 @@
   <div class="wrap">
     <p class="kicker reveal">Día 40</p>
     <h2 class="h-title reveal">Cierre · 20 de Septiembre 2026</h2>
-    <p class="h-sub reveal">Después de 31 días por las provincias y el Distrito Nacional, y 8 días de cierre en Santo Domingo, la nación se congrega en un mismo lugar.</p>
+    <p class="h-sub reveal">Después de 31 días por las provincias, el Distrito Nacional el día 32, y el recorrido por Santo Domingo hasta el día 40, la nación se congrega en un mismo lugar.</p>
 
     <div class="close-wrap">
       <div class="map-frame reveal">
@@ -1100,12 +1097,13 @@
     "Valverde","Puerto Plata","Santiago",
     "Espaillat","Hermanas Mirabal","Monseñor Nouel","La Vega",
     "Sánchez Ramírez","Duarte","María Trinidad Sánchez","Samaná","Monte Plata","Hato Mayor",
-    "El Seibo","La Romana","La Altagracia","San Pedro de Macorís","Distrito Nacional",
+    "El Seibo","La Romana","La Altagracia","San Pedro de Macorís","Barahona",
+    "Distrito Nacional",
     "Santo Domingo Este","Santo Domingo Norte","Santo Domingo Oeste","Los Alcarrizos",
-    "Pedro Brand","Boca Chica","San Antonio de Guerra","Barahona","Cierre Masivo"
+    "Pedro Brand","Boca Chica","San Antonio de Guerra","Cierre Masivo"
   ];
   var pendingDays = [];
-  var closingDays = [32,33,34,35,36,37,38,39];
+  var closingDays = [33,34,35,36,37,38,39];
 
   var start = new Date(2026,7,12);
   var days = [];
@@ -1261,7 +1259,6 @@
 
   var progLeft = document.getElementById('prog-left');
   var progRight = document.getElementById('prog-right');
-  var heroLive = document.getElementById('hero-live');
   var directosLive = document.getElementById('directos-live');
 
   function liveText(){
@@ -1284,16 +1281,13 @@
   if(beforeStart){
     progLeft.textContent = 'Comienza el 12 de agosto';
     progRight.textContent = fmt(days[0].date)+' 2026';
-    heroLive.innerHTML = liveText();
   } else if(afterEnd){
     progLeft.textContent = 'Ciclo cerrado — Día 40 de 40';
     progRight.textContent = fmt(days[days.length-1].date)+' 2026';
-    heroLive.innerHTML = liveText();
   } else {
     var dToday = days[activeIdx];
     progLeft.textContent = 'Día '+dToday.num+' de 40';
     progRight.textContent = fmt(dToday.date)+' 2026';
-    heroLive.innerHTML = liveText();
   }
   if(directosLive) directosLive.innerHTML = liveText();
 
